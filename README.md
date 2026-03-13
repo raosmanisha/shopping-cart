@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shopping Cart Example
+
+This repository contains a production-ready shopping cart built with Next.js 14 (App Router), TypeScript, Tailwind CSS, and Redux Toolkit. The application demonstrates the following features:
+
+- Product listing page
+- Product detail page
+- Add to cart functionality
+- Cart page with quantity update and remove item
+- Cart total calculation
+- Persistent cart using `localStorage`
+- Responsive UI powered by Tailwind CSS
+- Loading and error states during data fetching
+- Performance optimizations using `React.memo`
+
+## Tech Stack
+
+- Next.js 14 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS
+- Redux Toolkit & React Redux
+
+## Folder Structure
+
+```
+shopping-cart/
+├── src/
+│   ├── app/                # Next.js App Router pages and layout
+│   │   ├── api/
+│   │   │   └── products/route.ts  # Mock products API
+│   │   ├── cart/           # Cart page
+│   │   │   └── page.tsx
+│   │   ├── product/        # Dynamic product detail
+│   │   │   └── [id]/page.tsx
+│   │   ├── globals.css     # Tailwind imports
+│   │   ├── layout.tsx      # Root layout with Redux provider
+│   │   ├── loading.tsx     # Global loading state
+│   │   └── page.tsx        # Home/product listing
+│   ├── components/         # Reusable UI components
+│   │   ├── AddToCartButton.tsx
+│   │   ├── CartItem.tsx
+│   │   ├── ProductCard.tsx
+│   │   └── ProductList.tsx
+│   ├── hooks/              # Custom hooks
+│   │   └── useCart.ts
+│   ├── services/           # Business logic / API calls
+│   │   └── productService.ts
+│   ├── store/              # Redux store setup
+│   │   ├── cartSlice.ts
+│   │   └── store.ts
+│   └── types/              # TypeScript type definitions
+│       ├── cart.ts
+│       └── product.ts
+├── public/                 # Static assets (images, etc.)
+├── package.json
+├── tsconfig.json
+├── next.config.ts
+├── tailwind.config.js
+├── postcss.config.mjs
+└── README.md
+```
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies and start the development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Notes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- The product API is mocked using an internal `app/api` route and returns a hard-coded list of items.
+- Cart state is managed via Redux Toolkit and persisted to `localStorage` through a simple subscription.
+- Custom hooks and components keep UI and business logic separated for easy maintenance.
 
-## Learn More
+Enjoy exploring the sample shopping cart!
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

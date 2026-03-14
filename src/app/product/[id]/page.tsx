@@ -7,7 +7,9 @@ interface Props {
 }
 
 export default async function ProductPage({ params }: Props) {
-  const id = parseInt(params.id, 10);
+  const resolvedParams=await params
+  const id = parseInt(resolvedParams.id, 10);
+  console.log("id...........",id);
   const product = await fetchProductById(id).catch(() => null);
   if (!product) {
     return notFound();
@@ -15,19 +17,21 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">{product.name}</h1>
+      <h1 className="text-2xl font-bold">{product.title}</h1>
       <Image
-        src={product.image}
-        alt={product.name}
+        src={product.images[0]}
+        alt={product.title}
         width={604}
         height={604}
         className="object-cover"
       />
       <p>{product.description}</p>
+      <div className="mt-4 flex items-center justify-between">
       <span className="font-bold text-xl">
         ${product.price.toFixed(2)}
       </span>
       <AddToCartButton product={product} />
+      </div>
     </div>
   );
 }

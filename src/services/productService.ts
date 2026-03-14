@@ -10,7 +10,7 @@ export async function fetchProducts(): Promise<Product[]> {
 
 export async function fetchProductById(id: number): Promise<Product> {
   const products = await fetchProducts();
-  const product = products.find((p) => p.id === id);
+  const product = products?.products.find((p) => p.id === id);
   if (!product) throw new Error('Product not found');
   return product;
 }

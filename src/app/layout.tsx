@@ -9,18 +9,28 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+ 
   return (
     <html lang="en">
       <body>
         <ReduxProvider>
           <header className="bg-white shadow">
-            <nav className="container mx-auto px-4 py-4 flex justify-between">
+            <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
               <Link href="/" className="font-bold text-xl">
                 Shop
               </Link>
-              <Link href="/cart" className="text-gray-700 hover:text-gray-900">
+              <div className="flex items-center justify-end gap-4">
+              <Link href="/signup" className="px-4 py-2  rounded hover:bg-gray-100">
+                Sign Up
+              </Link>
+               <Link href="/login" className="px-4 py-2  rounded hover:bg-gray-100">
+                Log in
+              </Link>
+
+              <Link href="/cart" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
                 Cart
               </Link>
+              </div>
             </nav>
           </header>
           <main className="container mx-auto px-4 py-6">{children}</main>

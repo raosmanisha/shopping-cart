@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import API from "../../services/api";
-import { useFormStatus } from "react-dom";
+//import { useFormStatus } from "react-dom";
 
 export default function Login() {
 
@@ -12,7 +12,7 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error,setError]=useState<Record<string, string>>({});
-    const {pending}=useFormStatus()
+    //const {pending}=useFormStatus()
     const ErrorValidation=()=>{
         const newObj: Record<string, string> = {};
         if(!email)
@@ -40,6 +40,10 @@ export default function Login() {
                 email,
                 password,
             });
+
+            if (res?.data?.token) {
+              localStorage.setItem("token", res.data.token);
+            }
 
             router.push("/cart");
         }
@@ -82,8 +86,8 @@ export default function Login() {
                     />
                     {error && <span className="text-red-500 text-sm">{error.password}</span>}
 
-                    <button className="bg-green-500 text-white p-2 w-full" disabled={pending}>
-                        {pending ?"Logging in ...":"Login"}
+                    <button className="bg-green-500 text-white p-2 w-full">
+                        Login
                     </button>
 
                 </form>

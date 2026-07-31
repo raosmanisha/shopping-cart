@@ -1,16 +1,27 @@
 import { Product } from '../types/product';
 
-export async function fetchProducts(): Promise<Product[]> {
-  const res = await fetch('https://dummyjson.com/products');
+export interface ProductsResponse {
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
+export async function fetchProducts(): Promise<ProductsResponse> {
+  const res = await fetch('https://dummyjson.com/products', {
+    next: { revalidate: 60 },
+  });
+
   if (!res.ok) {
     throw new Error('Failed to fetch products');
   }
+
   return res.json();
 }
 
 export async function fetchProductById(id: number): Promise<Product> {
-  const products = await fetchProducts();
-  const product = products?.products.find((p) => p.id === id);
+  const response = await fetchProducts();
+  const product = response.products.find((p) => p.id === id);
   if (!product) throw new Error('Product not found');
   return product;
 }

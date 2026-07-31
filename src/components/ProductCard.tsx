@@ -2,17 +2,22 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { memo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { Product } from '../types/product';
-import { useCart } from '../hooks/useCart';
+import { addItem } from '../store/cartSlice';
+import { useAppDispatch } from '../store/store';
 
 interface Props {
   product: Product;
 }
 
 function ProductCardComponent({ product }: Props) {
-  const { addToCart } = useCart();
+  const dispatch = useAppDispatch();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const handleAddToCart = useCallback(() => {
+    dispatch(addItem(product));
+  }, [dispatch, product]);
 
   return (
     <div className="border rounded-lg p-4 flex flex-col">
@@ -23,7 +28,9 @@ function ProductCardComponent({ product }: Props) {
             alt={product.title}
             width={604}
             height={604}
-            className="object-cover w-full"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            priority={currentImageIndex === 0}
+            className="object-cover aspect-square w-full"
           />
           {product.images.length > 1 && (
             <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
@@ -50,7 +57,7 @@ function ProductCardComponent({ product }: Props) {
       <div className="mt-4 flex items-center justify-between">
         <span className="font-bold">${product.price.toFixed(2)}</span>
         <button
-          onClick={() => addToCart(product)}
+          onClick={handleAddToCart}
           className="text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-full text-sm px-3 py-1"
         >
           Add to cart

@@ -8,16 +8,21 @@ export const store = configureStore({
   },
 });
 
-// persist cart to localStorage whenever it changes
+let persistTimeout: number | undefined;
+
+// persist cart to localStorage in a non-blocking, debounced way
 store.subscribe(() => {
-  if (typeof window !== 'undefined') {
+  if (typeof window === 'undefined') return;
+
+  window.clearTimeout(persistTimeout);
+  persistTimeout = window.setTimeout(() => {
     try {
       const state = store.getState();
       localStorage.setItem('cart', JSON.stringify(state.cart));
     } catch (e) {
       console.error('Failed to save cart', e);
     }
-  }
+  }, 100);
 });
 
 export type RootState = ReturnType<typeof store.getState>;
